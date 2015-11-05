@@ -21,7 +21,7 @@ public class ImageFrame extends JFrame{
 
 	public void setNewImage(Mat frame) {
 		imagePanel.setNewImage(frame);
-		
+		this.repaint();
 	}
 	
 }

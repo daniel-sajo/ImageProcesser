@@ -13,8 +13,8 @@ public class Main {
 	private ImageFrame imageWindow;
 
 	public Main() {
-		showCam(new BlobDetector());
-		//showPict(new BlobDetector(), "/media/dataDisc/progik/OpenCV/java/ImgProcFramework/src/imgProc/BlobTest.jpg");
+		//showCam(new BlobDetector());
+		showPict(new BlobDetector(), "/media/dataDisc/progik/OpenCV/java/ImgProcFramework/src/imgProc/BlobTest.jpg");
 	}
 
 	private void showCam(ImgProcInterface imgProcesser) {
@@ -57,7 +57,8 @@ public class Main {
 		img = Imgcodecs.imread(pictFile);
 		
 		imageWindow = new ImageFrame(img.width(), img.height());
-		imageWindow.setNewImage(img);
+		
+		imageWindow.setNewImage( imgProcesser.processImage(img) );
 	}
 
 	static {
