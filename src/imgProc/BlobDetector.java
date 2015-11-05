@@ -20,7 +20,10 @@ public class BlobDetector implements ImgProcInterface {
 		Imgproc.cvtColor(img, ret_img, Imgproc.COLOR_RGB2GRAY);
 
 		// Set up the detector with default parameters.
-		FeatureDetector detector = FeatureDetector.create(FeatureDetector.SIMPLEBLOB);
+		FeatureDetector detector = FeatureDetector.create(FeatureDetector.PYRAMID_SIMPLEBLOB);
+		/*
+		 * GRID_SIMPLEBLOB PYRAMID_SIMPLEBLOB DYNAMIC_SIMPLEBLOB SIMPLEBLOB
+		 */
 		MatOfKeyPoint keypoints = new MatOfKeyPoint();
 
 		// settings for detector
