@@ -1,4 +1,4 @@
-package imgProc;
+package imgProc.blobDetector;
 
 import java.util.List;
 
@@ -9,6 +9,8 @@ import org.opencv.core.Scalar;
 import org.opencv.features2d.FeatureDetector;
 import org.opencv.features2d.Features2d;
 import org.opencv.imgproc.Imgproc;
+
+import imgProc.ImgProcInterface;
 
 public class BlobDetector implements ImgProcInterface {
 

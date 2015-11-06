@@ -6,6 +6,7 @@ import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.videoio.VideoCapture;
 
 import imgProc.*;
+import imgProc.contourDetector.ContourDetector;
 import showPic.ImageFrame;
 
 public class Main {
@@ -13,7 +14,7 @@ public class Main {
 	private ImageFrame imageWindow;
 
 	public Main() {
-		showCam(new BlobDetector());
+		showCam(new ContourDetector());
 		//showPict(new BlobDetector(), "/media/dataDisc/progik/OpenCV/java/ImgProcFramework/src/imgProc/BlobTest.jpg");
 	}
 
