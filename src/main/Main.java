@@ -9,6 +9,7 @@ import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.videoio.VideoCapture;
 
 import imgProc.*;
+import imgProc.blobDetector.BlobDetector;
 import imgProc.contourDetector.ContourDetector;
 import imgProc.simpleProcesser.SimpleProcesser;
 import showPic.ImageFrame;
@@ -21,11 +22,16 @@ public class Main {
 		List<ImgProcInterface> processerList = new ArrayList<>();
 
 		processerList.add(new ContourDetector());
-		processerList.add(new SimpleProcesser());
+		//processerList.add(new SimpleProcesser());
 
 		showCam(processerList);
-		// showPict(new BlobDetector(),
-		// "/media/dataDisc/progik/OpenCV/java/ImgProcFramework/src/imgProc/BlobTest.jpg");
+		
+		/*showPict(new ContourDetector(),
+		 "/media/dataDisc/progik/OpenCV/java/ImgProcFramework/src/imgProc/2015-11-07-211840.jpg");*/
+		
+		/*showPict(new SimpleProcesser(),
+				 "/media/dataDisc/progik/OpenCV/java/ImgProcFramework/src/imgProc/2015-11-07-211840.jpg");
+				 */
 	}
 
 	private void showCam(List<ImgProcInterface> imgProcesserList) {

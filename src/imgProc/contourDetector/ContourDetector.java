@@ -1,6 +1,7 @@
 package imgProc.contourDetector;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.opencv.core.Mat;
@@ -22,7 +23,7 @@ public class ContourDetector implements ImgProcInterface {
 		// http://docs.opencv.org/2.4/doc/tutorials/imgproc/threshold/threshold.html
 		double thresh = 100;
 		double maxval = 255;
-		Imgproc.threshold(newImg, newImg, thresh, maxval, Imgproc.THRESH_BINARY_INV);
+		Imgproc.threshold(newImg, newImg, thresh, maxval, Imgproc.THRESH_BINARY);
 
 		// http://docs.opencv.org/2.4/modules/imgproc/doc/structural_analysis_and_shape_descriptors.html?highlight=findcontours#findcontours
 		List<MatOfPoint> contours = new ArrayList<>();
@@ -32,9 +33,12 @@ public class ContourDetector implements ImgProcInterface {
 		Mat grayScaleImgCopy = newImg.clone();
 		Imgproc.cvtColor(newImg, grayScaleImgCopy, Imgproc.COLOR_GRAY2BGR);
 
-		for (int i = 0; i < contours.size(); i++) {
-			Scalar color = new Scalar(i*20%255, i*10%255, i*5%255);
-			Imgproc.drawContours(grayScaleImgCopy, contours, i, color, 7);
+		contours = SortContoursBySize(contours);		
+		
+		int indexMax = Math.min(3, contours.size());
+		for (int i = 0; i < indexMax; i++) {
+			Scalar color = new Scalar(50*(i+1)%255, 60*(i+1)%255, 80*(i+1)%255);
+			Imgproc.drawContours(img, contours, i, color, 4);
 			
 			Mat line = new Mat();
 			Imgproc.fitLine(contours.get(i), line, Imgproc.CV_DIST_L2, 0, 0.01, 0.01);
@@ -48,17 +52,66 @@ public class ContourDetector implements ImgProcInterface {
 			int lefty = (int) ((-x*vy/vx) + y);
 			int righty = (int) (((grayScaleImgCopy.height()-x)*vy/vx)+y);
 
-			Imgproc.line(grayScaleImgCopy, new Point(grayScaleImgCopy.height()-1, righty), new Point(0, lefty), new Scalar(50,50,50));
-			
-			//Imgproc.fillPoly(grayScaleImgCopy, contours, color);
-			
+			Imgproc.line(img, new Point(grayScaleImgCopy.height()-1, righty), new Point(0, lefty), color, 7);			
 		}
-		// Imgproc.fillPoly(img, contours, new Scalar(210, 120, 6));
-
-		return grayScaleImgCopy;
-		// return img;
+		
+		//return grayScaleImgCopy;
+		return img;
 	}
 	
+	private List<MatOfPoint> selectBiggestContour(List<MatOfPoint> contours){
+		
+		double max = Imgproc.contourArea(contours.get(0));;
+		MatOfPoint maxContour = contours.get(0);
+		
+		for(int i=1; i< contours.size(); i++){
+			double currentSize = Imgproc.contourArea(contours.get(i));
+			if(currentSize > max)
+				maxContour = contours.get(i);
+		}
+		
+		ArrayList<MatOfPoint> retList = new ArrayList<MatOfPoint>();
+		retList.add(maxContour);
+		
+		return retList;
+	}
+	
+	private List<MatOfPoint> SortContoursBySize(List<MatOfPoint> contours){
+		
+		ArrayList<ContourElement> contourElementList = new ArrayList<>();
+		
+		for(int i=1; i< contours.size(); i++){
+			double currentSize = Imgproc.contourArea(contours.get(i));
+			ContourElement ce = new ContourElement();
+			ce.size = currentSize;
+			ce.contour = contours.get(i);
+			
+			contourElementList.add(ce);
+		}
+		
+		Collections.sort(contourElementList);
+		
+		ArrayList<MatOfPoint> retList = new ArrayList<>();
+		for(int i=0; i<contourElementList.size(); i++){
+			retList.add(contourElementList.get(i).contour);
+		}
+		
+		return retList;
+	}
+	
+	private class ContourElement implements Comparable{
+		double size;
+		MatOfPoint contour;
+		
+		@Override
+		public int compareTo(Object o) {
+			// ascending
+			// return new Double(this.size).compareTo(new Double( ((ContourElement)o).size ));
+			
+			// descending
+			return new Double(((ContourElement)o).size).compareTo(new Double( this.size ));
+		}
+	}
 	
 
 }
