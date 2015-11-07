@@ -60,7 +60,7 @@ public class ContourDetector implements ImgProcInterface {
 			double alpha = computeDegreeOfLine(p1, p2);
 			
 			Imgproc.putText(img, new Double(alpha).toString(), p2, 2, 0.9, color);
-			System.out.println(alpha);
+			//System.out.println(alpha);
 		}
 		
 		//return grayScaleImgCopy;
@@ -126,6 +126,6 @@ public class ContourDetector implements ImgProcInterface {
 		
 		double alpha = Math.atan2(d.y, d.x);
 		
-		return alpha;
+		return alpha*(-180.0);
 	}
 }
