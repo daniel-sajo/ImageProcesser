@@ -1,4 +1,4 @@
-package imgProc.SimpleProcesser;
+package imgProc.simpleProcesser;
 
 import org.opencv.core.Mat;
 

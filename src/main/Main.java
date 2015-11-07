@@ -1,5 +1,8 @@
 package main;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.imgcodecs.Imgcodecs;
@@ -7,6 +10,7 @@ import org.opencv.videoio.VideoCapture;
 
 import imgProc.*;
 import imgProc.contourDetector.ContourDetector;
+import imgProc.simpleProcesser.SimpleProcesser;
 import showPic.ImageFrame;
 
 public class Main {
@@ -14,41 +18,55 @@ public class Main {
 	private ImageFrame imageWindow;
 
 	public Main() {
-		showCam(new ContourDetector());
-		//showPict(new BlobDetector(), "/media/dataDisc/progik/OpenCV/java/ImgProcFramework/src/imgProc/BlobTest.jpg");
+		List<ImgProcInterface> processerList = new ArrayList<>();
+
+		processerList.add(new ContourDetector());
+		processerList.add(new SimpleProcesser());
+
+		showCam(processerList);
+		// showPict(new BlobDetector(),
+		// "/media/dataDisc/progik/OpenCV/java/ImgProcFramework/src/imgProc/BlobTest.jpg");
 	}
 
-	private void showCam(ImgProcInterface imgProcesser) {
-		imageWindow = new ImageFrame(640, 480);
-		VideoCapture capture = new VideoCapture(0);
+	private void showCam(List<ImgProcInterface> imgProcesserList) {
+		Thread t = new Thread() {
 
-		Mat frame = new Mat();
+			public void run() {
+				List<ImageFrame> frameList = new ArrayList<>();
 
-		if (!capture.isOpened()) {
-			System.out.println("Did not connect to camera.");
-		} else {
+				for (int i = 0; i < imgProcesserList.size(); i++) {
+					frameList.add(new ImageFrame(640, 480));
+				}
 
-			while (true) {
+				VideoCapture capture = new VideoCapture(0);
 
-				capture.read(frame);
+				Mat frame = new Mat();
 
-				if (!frame.empty()) {
-					// show image
-					// frame = pixelRationByColor.processImage(frame,
-					// panel.mouseClick_x, panel.mouseClick_y);
-					frame = imgProcesser.processImage(frame);
-					imageWindow.setNewImage(frame);
-					imageWindow.repaint();
-
-					// System.out.println(pixelRationByColor.ratio + "%");
+				if (!capture.isOpened()) {
+					System.out.println("Did not connect to camera.");
 				} else {
-					System.out.println(" --(!) No captured frame from webcam !");
-					break;
+					while (true) {
+						capture.read(frame);
+
+						if (!frame.empty()) {
+
+							for (int i = 0; i < imgProcesserList.size(); i++) {
+								frameList.get(i).setNewImage(imgProcesserList.get(i).processImage(frame));
+								frameList.get(i).repaint();
+							}
+						} else {
+							System.out.println(" --(!) No captured frame from webcam !");
+							break;
+						}
+
+					}
+					capture.release();
 				}
 			}
-			capture.release();
 
-		}
+		};
+
+		t.start();
 
 	}
 
@@ -56,10 +74,10 @@ public class Main {
 		// open image
 		Mat img;
 		img = Imgcodecs.imread(pictFile);
-		
+
 		imageWindow = new ImageFrame(img.width(), img.height());
-		
-		imageWindow.setNewImage( imgProcesser.processImage(img) );
+
+		imageWindow.setNewImage(imgProcesser.processImage(img));
 	}
 
 	static {
