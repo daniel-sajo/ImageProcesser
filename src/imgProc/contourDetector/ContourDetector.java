@@ -51,8 +51,16 @@ public class ContourDetector implements ImgProcInterface {
 			
 			int lefty = (int) ((-x*vy/vx) + y);
 			int righty = (int) (((grayScaleImgCopy.height()-x)*vy/vx)+y);
+			
+			Point p1 = new Point(grayScaleImgCopy.height()-1, righty);
+			Point p2 = new Point(0, lefty);
 
-			Imgproc.line(img, new Point(grayScaleImgCopy.height()-1, righty), new Point(0, lefty), color, 7);			
+			Imgproc.line(img, p1, p2, color, 7);
+			
+			double alpha = computeDegreeOfLine(p1, p2);
+			
+			Imgproc.putText(img, new Double(alpha).toString(), p2, 2, 0.9, color);
+			System.out.println(alpha);
 		}
 		
 		//return grayScaleImgCopy;
@@ -99,19 +107,25 @@ public class ContourDetector implements ImgProcInterface {
 		return retList;
 	}
 	
-	private class ContourElement implements Comparable{
+	private class ContourElement implements Comparable<ContourElement>{
 		double size;
 		MatOfPoint contour;
 		
 		@Override
-		public int compareTo(Object o) {
+		public int compareTo(ContourElement o) {
 			// ascending
 			// return new Double(this.size).compareTo(new Double( ((ContourElement)o).size ));
 			
 			// descending
-			return new Double(((ContourElement)o).size).compareTo(new Double( this.size ));
+			return new Double(o.size).compareTo(new Double( this.size ));
 		}
 	}
 	
-
+	private double computeDegreeOfLine(Point p1, Point p2){
+		Point d = new Point(p1.x-p2.x, p1.y-p2.y);
+		
+		double alpha = Math.atan2(d.y, d.x);
+		
+		return alpha;
+	}
 }
