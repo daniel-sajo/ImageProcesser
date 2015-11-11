@@ -38,7 +38,7 @@ public class ContourDetector implements ImgProcInterface {
 		int indexMax = Math.min(3, contours.size());
 		for (int i = 0; i < indexMax; i++) {
 			Scalar color = new Scalar(50*(i+1)%255, 60*(i+1)%255, 80*(i+1)%255);
-			Imgproc.drawContours(img, contours, i, color, 4);
+			Imgproc.drawContours(grayScaleImgCopy, contours, i, color, 4);
 			
 			Mat line = new Mat();
 			Imgproc.fitLine(contours.get(i), line, Imgproc.CV_DIST_L2, 0, 0.01, 0.01);
@@ -55,16 +55,18 @@ public class ContourDetector implements ImgProcInterface {
 			Point p1 = new Point(grayScaleImgCopy.height()-1, righty);
 			Point p2 = new Point(0, lefty);
 
-			Imgproc.line(img, p1, p2, color, 7);
+			
+			Imgproc.line(grayScaleImgCopy, p1, p2, color, 7);
 			
 			double alpha = computeDegreeOfLine(p1, p2);
 			
-			Imgproc.putText(img, new Double(alpha).toString(), p2, 2, 0.9, color);
+			Imgproc.putText(grayScaleImgCopy, new Double(alpha).toString(), p2, 2, 0.9, new Scalar(0,0,150));
 			//System.out.println(alpha);
+			
 		}
 		
-		//return grayScaleImgCopy;
-		return img;
+		return grayScaleImgCopy;
+		//return img;
 	}
 	
 	private List<MatOfPoint> selectBiggestContour(List<MatOfPoint> contours){

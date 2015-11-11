@@ -26,12 +26,19 @@ public class Main {
 
 		showCam(processerList);
 		
+		/*
 		showPict(new ContourDetector(),
 		 "/media/dataDisc/progik/OpenCV/java/ImgProcFramework/src/imgProc/2015-11-07-211840.jpg");
+		*/
+		/*
 		
-		/*showPict(new SimpleProcesser(),
+		showPict(new SimpleProcesser(),
 				 "/media/dataDisc/progik/OpenCV/java/ImgProcFramework/src/imgProc/2015-11-07-211840.jpg");
-				 */
+			*/	 
+		/*
+		showPict(new ContourDetector(),
+				"/media/dataDisc/progik/OpenCV/java/ImgProcFramework/src/imgProc/2015-11-11 14.16.58.jpg");
+				*/
 	}
 
 	private void showCam(List<ImgProcInterface> imgProcesserList) {
