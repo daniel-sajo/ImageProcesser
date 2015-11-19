@@ -33,6 +33,19 @@ public class ImagePanel extends JPanel {
 	protected void setNewImage(Mat imgMatrix) {
 		buf_image = MatToBufImg.toBufferedImage(imgMatrix);
 	}
+	
+	/**
+	 * method for testing BufferedImage -> Mat conversion
+	 * @param imgMatrix
+	 */
+	protected void setNewImageTst(Mat imgMatrix) {
+		
+		BufferedImage bi = MatToBufImg.toBufferedImage(imgMatrix);
+		Mat m = MatToBufImg.toMat(bi);
+		
+		buf_image = MatToBufImg.toBufferedImage(m);
+	}
+	
 
 	// Override default paint
 	public void paintComponent(Graphics g) {

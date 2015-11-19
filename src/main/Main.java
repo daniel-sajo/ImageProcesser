@@ -24,12 +24,16 @@ public class Main {
 		processerList.add(new ContourDetector());
 		//processerList.add(new SimpleProcesser());
 
-		showCam(processerList);
+		//showCam(processerList);
 		
-		/*
-		showPict(new ContourDetector(),
+		
+		showPictTestConversion(new SimpleProcesser(),
 		 "/media/dataDisc/progik/OpenCV/java/ImgProcFramework/src/imgProc/2015-11-07-211840.jpg");
-		*/
+		
+		showPict(new SimpleProcesser(),
+				 "/media/dataDisc/progik/OpenCV/java/ImgProcFramework/src/imgProc/2015-11-07-211840.jpg");
+				
+		
 		/*
 		
 		showPict(new SimpleProcesser(),
@@ -91,6 +95,18 @@ public class Main {
 		imageWindow = new ImageFrame(img.width(), img.height());
 
 		imageWindow.setNewImage(imgProcesser.processImage(img));
+	}
+	
+	/**
+	 * method to test BufferedImage to Mat conversion
+	 */
+	private void showPictTestConversion(ImgProcInterface imgProcesser, String pictFile){
+		Mat img;
+		img = Imgcodecs.imread(pictFile);
+		
+		imageWindow = new ImageFrame(img.width(), img.height());
+		
+		imageWindow.setNewImageTst(imgProcesser.processImage(img));
 	}
 
 	static {

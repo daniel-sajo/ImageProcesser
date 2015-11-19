@@ -24,4 +24,14 @@ public class ImageFrame extends JFrame{
 		this.repaint();
 	}
 	
+	/**
+	 * method for testing bufferedImage -> mat conversion
+	 * @param frame
+	 */
+	public void setNewImageTst(Mat frame) {
+		imagePanel.setNewImageTst(frame);
+		this.repaint();
+	}
+
+	
 }
