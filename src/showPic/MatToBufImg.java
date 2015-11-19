@@ -22,11 +22,10 @@ public class MatToBufImg {
 				.getDataBuffer()).getData();
 		System.arraycopy(b, 0, targetPixels, 0, b.length);
 		return image;
-
 	}
 	
 	// http://enfanote.blogspot.hu/2013/06/converting-java-bufferedimage-to-opencv.html
-	public static Mat toMat(BufferedImage bi){		
+	public static Mat toMat(BufferedImage bi){
 		byte[] data = ((DataBufferByte) bi.getRaster().getDataBuffer()).getData();
 		Mat mat = new Mat(bi.getHeight(), bi.getWidth(), CvType.CV_8UC3);
 		mat.put(0, 0, data);
