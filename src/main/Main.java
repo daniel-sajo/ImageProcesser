@@ -22,7 +22,7 @@ public class Main {
 		List<ImgProcInterface> processerList = new ArrayList<>();
 
 		//processerList.add(new ContourDetector());
-		//processerList.add(new SimpleProcesser());
+		processerList.add(new SimpleProcesser());
 		processerList.add(new BlobDetector());
 
 		showCam(processerList);
@@ -35,7 +35,7 @@ public class Main {
 		/*
 		showPict(new BlobDetector(),
 				 "/media/dataDisc/progik/OpenCV/java/ImgProcFramework/src/imgProc/2015-11-07-211840.jpg");
-		*/	
+		*/
 		
 		/*
 		
