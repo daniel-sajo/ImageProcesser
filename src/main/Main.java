@@ -25,7 +25,7 @@ public class Main {
 		processerList.add(new SimpleProcesser());
 		processerList.add(new BlobDetector());
 
-		showCam(processerList);
+		//showCam(processerList);
 		
 		/*
 		showPictTestConversion(new BlobDetector(),
@@ -36,6 +36,9 @@ public class Main {
 		showPict(new BlobDetector(),
 				 "/media/dataDisc/progik/OpenCV/java/ImgProcFramework/src/imgProc/2015-11-07-211840.jpg");
 		*/
+		
+		showPict(new BlobDetector(),
+				 "src/imgProc/2015-11-07-211840.jpg");
 		
 		/*
 		
